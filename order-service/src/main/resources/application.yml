@@ -1,0 +1,101 @@
+#默认使用配置
+spring:
+  http: 
+    encoding: 
+      charset: UTF-8
+      enabled: true
+      force: true
+  application:
+    profiles: 
+      active: dev
+  #数据库
+  datasource:
+    url: jdbc:mysql://localhost:3306/order?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai
+    username: root
+    password: zaq1ZAQ1
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # 使用druid数据源
+    type: com.alibaba.druid.pool.DruidDataSource
+    initialSize: 3
+    minIdle: 3
+    maxActive: 10
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: select 1
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    filters: stat,wall,log4j
+    poolPreparedStatements: false
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+    useGlobalDataSourceStat: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+    
+  #redis
+  redis: 
+    database: 0
+    host: localhost
+    port: 6379
+    password: 
+    jedis:
+      pool: 
+        max-active: 8
+        max-wait: 1
+        max-idle: 8
+        min-idle: 0
+    timeout: 5000
+  rabbitmq:
+    # rabbitmq服务器地址
+    host: localhost
+    # rabbitmq服务器连接端口
+    port: 5672
+    # rabbitmq服务器连接用户名
+    username: guest
+    # rabbitmq服务器连接密码（默认为空）
+    password: guest
+    # rabbitmq虚拟地址
+    virtualHost: order
+    
+#公共配置与profiles选择无关 mapperLocations指的路径是src/main/resources
+mybatis:
+  pagehelper:
+    helperDialect: mysql                           #分页插件方言选择
+    reasonable: true                               #合理化参数，设为true时pageNum<=0 时会查第一页， pageNum>pages（超过总数时），会查询最后一页
+    supportMethodsArguments: true    
+    
+  typeAliasesPackage: com.yhb.dao.entity
+  mapperLocations: classpath:com/yhb/dao/mapper/*.xml
+  configuration:                                    #打印sql到控制台
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+ 
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSqlehelper
+  
+server:
+  #端口号
+  port: 443
+  servlet: 
+    context-path: /app
+  compression:
+    enabled: true
+  uri-encoding: UTF-8
+  
+  #项目名，如果不设定，默认是 /
+logging: 
+  config: 
+    classpath: log4j2.xml
+ 
+ #swagger配置
+swagger:
+  title: Api Document for KangMei Health Cloud
+  description: '@project.description@'
+  version: '@project.version@'
+  contact.name: yanghaibin
+  contact.email: 1120564240@qq.com
+  base-package: com.yhb.service
+  base-path: /**
+  exclude-path: /error
