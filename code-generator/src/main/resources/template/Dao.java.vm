@@ -1,0 +1,14 @@
+package ${packageName}.km.gdszyylmp.dao;
+
+import ${packageName}.gdszyylmp.model.entity.${className};
+import ${packageName}.gdszyylmp.model.util.MyMapper;
+
+/**
+ * ${comments}Mapper
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+public interface ${className}Dao extends MyMapper<${className}> {
+
+}

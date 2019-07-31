@@ -1,0 +1,164 @@
+package ${packageName}.km.gdszyylmp.controller.admin;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.web.bind.annotation.*;
+
+import com.alibaba.fastjson.JSONObject;
+import com.gdszyylmp.model.dto.request.common.DeleteIdsRequest;
+import com.gdszyylmp.model.dto.request.common.QueryIdRequest;
+import com.gdszyylmp.model.dto.request.common.UpdateIDRequest;
+import com.gdszyylmp.model.entity.${className};
+import com.gdszyylmp.model.vo.UserAdminVO;
+import com.km.gdszyylmp.base.enums.AdminLogEnum;
+import com.km.gdszyylmp.base.util.AdminTokenUtil;
+import com.km.gdszyylmp.base.util.PagedResult;
+import com.km.gdszyylmp.base.util.RedisUtil;
+import com.km.gdszyylmp.base.util.ResultModel;
+import com.km.gdszyylmp.base.util.ResultModelUtil;
+import com.km.gdszyylmp.base.util.StringUtil;
+import com.km.gdszyylmp.controller.BaseController;
+import com.km.gdszyylmp.service.system.I${className}Service;
+import com.km.gdszyylmp.service.system.ISysAdminLogService;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
+/**
+ * @Description: 后端 ->${comments}控制层
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Slf4j
+@RestController
+@RequestMapping("/admin/${classname}")
+@Api(value = "${comments}管理", description = "${comments}管理")
+public class ${className}Controller extends BaseController {
+	@Resource
+	private I${className}Service ${classname}ServiceImpl;
+	public String modelName="${comments}";
+	@Resource
+	private RedisUtil redisUtil;
+	@Resource
+	private ISysAdminLogService sysAdminLogServiceImpl;
+
+	/**
+	 * 分页获取${comments}列表
+	 * @param ${classname}
+	 * @param request
+	 * @return
+	 */
+	@PostMapping("/get${className}List")
+	@ApiOperation(value = "分页获取${comments}列表", notes = "分页获取${comments}列表")
+	public ResultModel get${className}List(@RequestBody  ${className} ${classname},HttpServletRequest request) {
+		UserAdminVO adminVo = AdminTokenUtil.getUserAdminVO(redisUtil, request);
+		if (adminVo != null) {
+			PagedResult<${className}> result = ${classname}ServiceImpl.get${className}ListByPage(${classname});
+			return ResultModelUtil.apiReturn(result);
+		} else {
+			return ResultModelUtil.apiError("-1");
+		}
+	}
+
+
+	/**
+	 * 按ID获取${comments}对象
+	 * @param queryIdRequest
+	 * @param request
+	 * @return
+	 */
+	@PostMapping("/get${className}ById")
+	@ApiOperation(value = "按ID获取${comments}对象", notes = "按ID获取${comments}对象")
+	public ResultModel get${className}ById(@RequestBody QueryIdRequest queryIdRequest,HttpServletRequest request) {
+		UserAdminVO adminVo = AdminTokenUtil.getUserAdminVO(redisUtil, request);
+		if (adminVo != null) {
+			return ResultModelUtil.apiReturn(${classname}ServiceImpl.selectByPrimaryKey(queryIdRequest.getId()));// 返回对象
+		} else {
+			return ResultModelUtil.apiError("-1");
+		}
+	}
+
+	/**
+	 * 添加或修改${comments}对象
+	 * @param objVO
+	 * @param request
+	 * @return
+	 */
+	@PostMapping("/insertOrUpdate${className}")
+	@ApiOperation(value = "添加或修改${comments}对象", notes = "当${comments} id 有值时 为修改 对象  ，没值时为添加对象")
+	public ResultModel insertOrUpdate${className}(@RequestBody ${className} objVO,HttpServletRequest request) {
+		UserAdminVO adminVo = AdminTokenUtil.getUserAdminVO(redisUtil, request);
+		if (adminVo != null) {
+			String action=AdminLogEnum.ADD.toString();
+			if(StringUtils.isNotBlank(objVO.getId())){
+				action=AdminLogEnum.UPDATE.toString();
+			}
+			if (${classname}ServiceImpl.insertOrUpdate${className}(objVO) > 0) {
+				sysAdminLogServiceImpl.addLog(request, adminVo.getUser(), action, modelName, objVO.getName(),JSONObject.toJSONString(objVO));
+				return ResultModelUtil.apiReturn();
+			} else {
+				if (objVO.getId() != null) {
+					return ResultModelUtil.apiError("-3","修改失败");
+				}
+				return ResultModelUtil.apiError("-3","添加失败");
+			}
+		} else {
+			return ResultModelUtil.apiError("-1");
+		}
+
+
+	}
+	/**
+	 * 按ID删除${comments}列表
+	 * @param deleteIdsRequest
+	 * @param request
+	 * @return
+	 */
+	@PostMapping("/delete${className}ByIds")
+	@ApiOperation(value = "按ID删除${comments}列表", notes = "按ID删除${comments}列表")
+	public ResultModel delete${className}ByIds(@RequestBody DeleteIdsRequest deleteIdsRequest,
+			HttpServletRequest request) {
+		UserAdminVO adminVo = AdminTokenUtil.getUserAdminVO(redisUtil, request);
+		if (adminVo != null) {
+			String id = StringUtils.isNotBlank(deleteIdsRequest.getIds())?deleteIdsRequest.getIds():"";
+			if (${classname}ServiceImpl.deleteByPrimaryKeys(id) > 0) {
+				sysAdminLogServiceImpl.addLog(request, adminVo.getUser(), AdminLogEnum.DELETE.toString(), modelName, deleteIdsRequest.getIds().split(",").length+"个",deleteIdsRequest.getIds());
+				return ResultModelUtil.apiReturn();
+			} else {
+				return ResultModelUtil.apiError("-3","删除失败");
+			}
+		} else {
+			return ResultModelUtil.apiError("-1");
+		}
+
+
+	}
+	/**
+	 * 按ID修改${comments}状态
+	 * @param updateIDRequest
+	 * @param request
+	 * @return
+	 */
+	@PostMapping("/updateStatusByIds")
+	@ApiOperation(value = "按ID修改${comments}状态", notes = "按ID修改${comments}状态")
+	public ResultModel updateStatusByIds(@RequestBody UpdateIDRequest updateIDRequest,
+			HttpServletRequest request) {
+		UserAdminVO adminVo = AdminTokenUtil.getUserAdminVO(redisUtil, request);
+		if (adminVo != null) {
+			String id = StringUtils.isNotBlank(updateIDRequest.getIds())?updateIDRequest.getIds():"";
+			${className} update${className}=new ${className}();
+			update${className}.setStatus(updateIDRequest.getStatus());
+			if (${classname}ServiceImpl.updateByPrimaryKeysSelective(StringUtil.sqlFomaterIds(id),update${className}) > 0) {
+				sysAdminLogServiceImpl.addLog(request, adminVo.getUser(), AdminLogEnum.UPDATE.toString(), modelName, updateIDRequest.getIds().split(",").length+"个",updateIDRequest.getIds());
+				return ResultModelUtil.apiReturn();
+			} else {
+				return ResultModelUtil.apiError("-3","删除失败");
+			}
+		} else {
+			return ResultModelUtil.apiError("-1");
+		}
+	}
+}

@@ -1,0 +1,90 @@
+package ${packageName}.km.gdszyylmp.service.system.impl;
+
+import java.util.Date;
+import java.util.List;
+
+import ${packageName}.km.gdszyylmp.service.support.BasisServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import ${packageName}.gdszyylmp.model.entity.${className};
+import com.github.pagehelper.PageHelper;
+import ${packageName}.km.gdszyylmp.base.util.BeanUtil;
+import ${packageName}.km.gdszyylmp.base.util.ListUtil;
+import ${packageName}.km.gdszyylmp.base.util.PagedResult;
+import ${packageName}.km.gdszyylmp.dao.${className}Dao;
+import ${packageName}.km.gdszyylmp.service.system.I${className}Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import lombok.extern.slf4j.Slf4j;
+/**
+ * ${comments}service实现
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Slf4j
+@Service
+@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
+public class ${className}ServiceImpl extends BasisServiceImpl<${className}, String> implements I${className}Service {
+	@Autowired
+	private ${className}Dao ${classname}Dao;
+
+	@Override
+	protected Class<${className}> getClassType() {
+		return ${className}.class;
+	}
+
+	@Autowired
+	public void setBaseMapper() {
+		super.setBasisMapper(${classname}Dao);
+	}
+
+	/**
+	 * 按条件 获取${comments}
+	 * @param searchVO 搜索对象
+	 * @author ${author}
+	 * @return
+	 */
+	@Override
+	public ${className} get${className}ByOne(${className} searchVO) {
+		List<${className}> list=${classname}Dao.select(searchVO);
+		return ListUtil.isNotEmpty(list)?list.get(0):null;
+	}
+	/**
+	 * 修改${comments}图片
+	 * @param objVO 操作对象
+	 * @author ${author}
+	 * @return
+	 */
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	public int insertOrUpdate${className}(${className} objVO) {
+		if (objVO.getId()!=null) {
+            ${className} searchVO = ${classname}Dao.selectByPrimaryKey(objVO.getId());
+			if (searchVO != null) {
+				objVO.setCreateTime(objVO.getCreateTime());
+				return ${classname}Dao.updateByPrimaryKey(objVO);
+			}
+			return 0;
+		} else {
+			objVO.setStatus(1);
+			objVO.setCreateTime(new Date());
+			return ${classname}Dao.insert(objVO);
+		}
+
+	}
+
+	/***
+	 * 分页获取${comments}列表
+	 * @param searchVO 搜索对象
+	 * @author ${author}
+	 * @return
+	 */
+	@Override
+	public PagedResult<${className}> get${className}ListByPage(${className} searchVO) {
+		PageHelper.startPage(searchVO.getPage(), searchVO.getRows());
+		return BeanUtil.toPagedResult(${classname}Dao.select(searchVO));
+	}
+}

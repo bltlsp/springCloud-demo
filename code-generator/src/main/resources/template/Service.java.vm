@@ -1,0 +1,37 @@
+package ${packageName}.km.gdszyylmp.service.system;
+
+import ${packageName}.gdszyylmp.model.entity.${className};
+import ${packageName}.km.gdszyylmp.base.util.PagedResult;
+import ${packageName}.km.gdszyylmp.service.support.BasisService;
+
+/**
+ * ${comments}service接口
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+public interface I${className}Service extends BasisService<${className}, String>{
+	/**
+	 * 按条件 获取${comments}
+	 * @param searchVO 搜索对象
+	 * @author ${author}
+	 * @return
+	 */
+    ${className} get${className}ByOne(${className} searchVO);
+	/**
+     * 修改${comments}
+     * @param objVO 操作对象
+	 * @author ${author}
+     * @return
+     */
+	int insertOrUpdate${className}(${className} objVO);
+	/***
+	 * 分页获取${comments}列表
+	 * @param searchVO 搜索对象
+	 * @author ${author}
+	 * @return
+	 */
+	PagedResult<${className}> get${className}ListByPage(${className} searchVO);
+
+}
+
