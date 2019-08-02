@@ -77,9 +77,9 @@ pagehelper:
   
 server:
   #端口号
-  port: 443
+  port: 8081
   servlet: 
-    context-path: /app
+    context-path: /order-service
   compression:
     enabled: true
   uri-encoding: UTF-8
@@ -96,6 +96,6 @@ swagger:
   version: '@project.version@'
   contact.name: yanghaibin
   contact.email: 1120564240@qq.com
-  base-package: com.yhb.service
+  base-package: com.yhb.controller
   base-path: /**
   exclude-path: /error

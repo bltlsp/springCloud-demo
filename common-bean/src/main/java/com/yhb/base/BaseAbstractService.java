@@ -19,7 +19,7 @@ import com.yhb.constant.CommonConstant;
 import tk.mybatis.mapper.entity.Condition;
 import tk.mybatis.mapper.entity.Example.Criteria;
 
-public abstract class BaseAbstractService<T> {
+public abstract class BaseAbstractService<T> implements IBaseService<T>{
 	@Autowired
 	protected BaseDao<T> baseDao;
 

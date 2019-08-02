@@ -19,4 +19,5 @@ public interface CommonConstant {
 	//标记为删除的数据
 	public static final int STATUS_DEL = 1;
 	
+	public static final String RESPONSE_CODE_SUCCESS = "1";
 }
