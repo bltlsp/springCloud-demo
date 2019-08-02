@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yhb.dao.OrderDao" >
+    <!-- 数据库通用字段 -->
+	<resultMap id="BaseColumnMap" type="com.yhb.dao.entity.BaseEntity">
+		<result column="id" property="id" jdbcType="VARCHAR" />
+		<result column="create_by" property="createBy" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="is_del" property="isDel" jdbcType="INTEGER" />
+	</resultMap>
+	
+    <resultMap id="BaseResultMap" type="com.yhb.dao.entity.Order" 
+    extends="com.yhb.dao.OrderDao.BaseColumnMap">
+        <result column="order_code" property="orderCode" jdbcType="VARCHAR" />
+        <result column="order_name" property="orderName" jdbcType="VARCHAR" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        id, order_code, order_name
+    </sql>
+</mapper>
