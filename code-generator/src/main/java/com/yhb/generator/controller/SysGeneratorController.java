@@ -24,7 +24,7 @@ import io.swagger.annotations.ApiOperation;
  */
 @RestController
 @Api(tags = "代码生成器")
-@RequestMapping("/com/kmhealthcloud/generator")
+@RequestMapping("/generator")
 public class SysGeneratorController extends BaseController {
 	@Autowired
 	private SysGeneratorService sysGeneratorService;

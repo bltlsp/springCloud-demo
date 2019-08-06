@@ -1,5 +1,8 @@
 package com.yhb.service;
 
-public interface ItemService {
+import com.yhb.base.IBaseService;
+import com.yhb.dao.entity.Item;
+
+public interface ItemService extends IBaseService<Item> {
 
 }

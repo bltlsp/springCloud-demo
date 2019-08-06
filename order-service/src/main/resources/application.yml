@@ -6,7 +6,8 @@ spring:
       enabled: true
       force: true
   application:
-    profiles: 
+    name: order-service
+    profiles:
       active: dev
   #数据库
   datasource:
@@ -78,11 +79,14 @@ pagehelper:
 server:
   #端口号
   port: 8081
-  servlet: 
-    context-path: /order-service
+  #servlet: 
+    #context-path: /order-service
   compression:
     enabled: true
   uri-encoding: UTF-8
+myspcloud:
+  item:
+    url: http://127.0.0.1:8082/product-service/item/
   
   #项目名，如果不设定，默认是 /
 logging: 
@@ -91,7 +95,7 @@ logging:
  
  #swagger配置
 swagger:
-  title: Api Document for KangMei Health Cloud
+  title: Api Document test springCloud
   description: '@project.description@'
   version: '@project.version@'
   contact.name: yanghaibin
@@ -99,3 +103,19 @@ swagger:
   base-package: com.yhb.controller
   base-path: /**
   exclude-path: /error
+  
+###服务注册到eureka注册中心的地址
+eureka:
+  instance:
+    preferIpAddress: true
+    instance-id:  ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port} 
+  client:
+    service-url:
+           defaultZone: http://127.0.0.1:8100/eureka
+###因为该应用为服务提供者，是eureka的一个客户端，需要注册到注册中心
+    register-with-eureka: true
+###是否需要从eureka上检索服务
+    fetch-registry: true
+feign:
+  hystrix:
+    enabled: true

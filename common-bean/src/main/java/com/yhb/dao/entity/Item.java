@@ -1,5 +1,7 @@
 package com.yhb.dao.entity;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Column;
 import javax.persistence.Table;
 
@@ -19,6 +21,6 @@ public class Item extends BaseEntity {
 	
 	@Column(name="price")
     @ApiModelProperty(value = "价格")
-	private double price;
+	private BigDecimal price;
 	
 }

@@ -11,4 +11,12 @@ public class ResponseUtil {
 		response.setData(t);
 		return response;
 	}
+	
+	/*public static <T> ResponseVO<Collection<T>> success(Collection<T> t) {
+		ResponseVO<Collection<T>> response = new ResponseVO<Collection<T>>();
+		response.setCode(CommonConstant.RESPONSE_CODE_SUCCESS);
+		response.setData(t);
+		return response;
+	}*/
+	
 }

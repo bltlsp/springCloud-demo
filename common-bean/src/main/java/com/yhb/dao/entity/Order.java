@@ -26,5 +26,5 @@ public class Order extends BaseEntity {
 	
 	@Transient
 	@ApiModelProperty(value = "商品详情")
-	private List<Item> itemList;
+	private Item item;
 }
